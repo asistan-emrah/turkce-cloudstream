@@ -1,9 +1,9 @@
 package com.lagradost.cloudstream3.extractors
 
-import com.lagradost.cloudstream3.utils.ExtractorApi
-import com.lagradost.cloudstream3.utils.ExtractorLink
-import com.lagradost.cloudstream3.utils.Qualities
+import com.lagradost.cloudstream3.HomePageList
+import com.lagradost.cloudstream3.TvType
 import com.lagradost.cloudstream3.utils.*
+import org.jsoup.nodes.Element
 
 class Canlidizi6Extractor : ExtractorApi() {
     override var name = "Canlı Dizi 6"
@@ -59,8 +59,14 @@ class Canlidizi6Extractor : ExtractorApi() {
             Episode(episodeUrl, episodeTitle)
         }
         val tvType = if (episodes.size > 1) TvType.TvSeries else TvType.Movie
-        return newTvSeriesLoadResponse(title, url, tvType, episodes) {
-            this.posterUrl = posterUrl
+        return if (episodes.isEmpty()) {
+            newTvSeriesLoadResponse(title, url, TvType.Movie, listOf(Episode(url, "Bölüm 1"))) {
+                this.posterUrl = posterUrl
+            }
+        } else {
+            newTvSeriesLoadResponse(title, url, tvType, episodes) {
+                this.posterUrl = posterUrl
+            }
         }
     }
 
@@ -73,7 +79,9 @@ class Canlidizi6Extractor : ExtractorApi() {
         val document = app.get(data).document
         document.select("iframe").forEach {
             val iframeUrl = fixUrl(it.attr("src"))
-            loadExtractor(iframeUrl, data, subtitleCallback, callback)
+            if (iframeUrl.isValidUrl()) {
+                loadExtractor(iframeUrl, data, subtitleCallback, callback)
+            }
         }
         return true
     }

@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("maven-publish")
+    kotlin("kapt") 
 }
 
 android {
@@ -33,6 +34,10 @@ android {
     }
 
     namespace = "com.lagradost.cloudstream3.extractors" 
+
+    buildFeatures {
+        viewBinding = true 
+    }
 }
 
 dependencies {
@@ -48,6 +53,19 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0") // HTTP requests
 
     implementation("com.lagradost.cloudstream3:core:1.0.0") // Cloudstream Core kütüphanesi
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.+")
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("com.github.bumptech.glide:glide:4.13.2")
+    kapt("com.github.bumptech.glide:compiler:4.13.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("androidx.media:media:1.6.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 }
 
 afterEvaluate {

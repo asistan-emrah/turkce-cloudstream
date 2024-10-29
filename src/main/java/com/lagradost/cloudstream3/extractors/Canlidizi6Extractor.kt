@@ -18,27 +18,27 @@ class Canlidizi6Extractor : ExtractorApi() {
     override val hasMovieSearch = true
     override val hasTvSeries = true
 
-   override suspend fun getMainPage(page: Int): HomePageResponse {
-    val document = app.get(mainUrl).document
-    val items = document.select(".diziler a").map {
-        val title = it.text()
-        val href = fixUrl(it.attr("href"))
-        val posterUrl = fixUrlNull(it.select("img").attr("src"))
+    override suspend fun getMainPage(page: Int): HomePageResponse {
+        val document = app.get(mainUrl).document
+        val items = document.select(".diziler a").map {
+            val title = it.text()
+            val href = fixUrl(it.attr("href"))
+            val posterUrl = fixUrlNull(it.select("img").attr("src"))
 
-        // İçeriğin film mi dizi mi olduğunu kontrol eden kod (örnek)
-        val tvType = if (document.select(".bolumler").isNotEmpty()) TvType.TvSeries else TvType.Movie 
+            // İçeriğin film mi dizi mi olduğunu kontrol eden kod (örnek)
+            val tvType = if (document.select(".bolumler").isNotEmpty()) TvType.TvSeries else TvType.Movie 
 
-        TvSeriesSearchResponse(
-            title,
-            href,
-            this.name,
-            tvType, 
-            posterUrl,
-            null
-        )
+            TvSeriesSearchResponse(
+                title,
+                href,
+                this.name,
+                tvType, 
+                posterUrl,
+                null
+            )
+        }
+        return newHomePageResponse(items)
     }
-    return newHomePageResponse(items)
-}
 
     override suspend fun search(query: String): List<SearchResponse> {
         val document = app.get("$mainUrl/?ara=$query").document

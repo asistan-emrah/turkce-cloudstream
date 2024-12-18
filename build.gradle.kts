@@ -41,13 +41,15 @@ android {
 }
 
 cloudstream {
+    // Eklenti adını açıkça belirtin
+    pluginName = "FilmekseniProvider"
     description = "Filmekseni için Cloudstream eklentisi"
     language = "tr"
-    authors = listOf("Sizin Adınız")
+    authors = listOf("asistan-emrah")
     status = 1
     tvTypes = listOf(
         "Movie",
-        "TvSeries",
+        "TvSeries"
     )
 }
 

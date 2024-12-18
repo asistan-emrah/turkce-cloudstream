@@ -1,0 +1,8 @@
+{
+    "name": "Turkish Providers Repository | @asistan",
+    "description": "film ekseni eklentisi",
+    "manifestVersion": 1,
+    "pluginLists": [
+      "https://raw.githubusercontent.com/keyiflerolsun/Kekik-cloudstream/builds/plugins.json"
+    ]
+}

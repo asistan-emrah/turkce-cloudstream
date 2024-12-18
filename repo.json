@@ -3,6 +3,6 @@
     "description": "film ekseni eklentisi",
     "manifestVersion": 1,
     "pluginLists": [
-      "https://raw.githubusercontent.com/keyiflerolsun/Kekik-cloudstream/builds/plugins.json"
+      "https://raw.githubusercontent.com/asistan-emrah/FilmekseniProvider/refs/heads/main/plugins.json"
     ]
 }

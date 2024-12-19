@@ -1,0 +1,9 @@
+{
+  "name": "Turkish Providers Repository",
+  "description": "Türkçe içerik sağlayıcıları için CloudStream-3 eklentileri",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/your-github-username/cloudstream-turkish-providers/builds/plugins.json"
+  ]
+}
+

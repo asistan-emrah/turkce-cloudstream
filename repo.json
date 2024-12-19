@@ -3,7 +3,7 @@
   "description": "Türkçe içerik sağlayıcıları için CloudStream-3 eklentileri",
   "manifestVersion": 1,
   "pluginLists": [
-    "https://github.com/asistan-emrah/cloudstream-turkish-providers/plugins.json"
+    "https://github.com/asistan-emrah/Cloudstream-Turkish-Providers/blob/main/plugins.json"
   ]
 }
 

@@ -1,0 +1,77 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: adopt
+          
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        
+      - name: Build Plugins
+        run: |
+          chmod +x gradlew
+          ./gradlew :FilmEkseniProvider:assembleRelease
+          ./gradlew :DizidayProvider:assembleRelease
+          
+      - name: Move APKs to builds directory
+        run: |
+          mkdir -p builds
+          mv FilmEkseniProvider/build/outputs/apk/release/FilmEkseniProvider-release.apk builds/
+          mv DizidayProvider/build/outputs/apk/release/DizidayProvider-release.apk builds/
+          
+      - name: Generate plugins.json
+        run: |
+          echo '{
+            "name": "Turkish Providers Repository",
+            "description": "Türkçe içerik sağlayıcıları için CloudStream-3 eklentileri",
+            "manifestVersion": 1,
+            "plugins": [
+              {
+                "name": "Film Ekseni",
+                "description": "Film Ekseni için CloudStream-3 eklentisi",
+                "authors": ["your-github-username"],
+                "language": "tr",
+                "url": "https://raw.githubusercontent.com/your-github-username/cloudstream-turkish-providers/builds/FilmEkseniProvider-release.apk",
+                "version": 1
+              },
+              {
+                "name": "Diziday",
+                "description": "Diziday için CloudStream-3 eklentisi",
+                "authors": ["your-github-username"],
+                "language": "tr",
+                "url": "https://raw.githubusercontent.com/your-github-username/cloudstream-turkish-providers/builds/DizidayProvider-release.apk",
+                "version": 1
+              }
+            ]
+          }' > builds/plugins.json
+          
+      - name: Copy repo.json to builds
+        run: cp repo.json builds/
+          
+      - name: Push builds
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add builds/
+          git commit -m "Build $GITHUB_SHA" || exit 0
+          git push
+

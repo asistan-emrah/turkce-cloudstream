@@ -1,5 +1,2 @@
-rootProject.name = "CloudstreamTurkishProviders"
-
-include(":FilmEkseniProvider")
-include(":DizidayProvider")
-
+rootProject.name = "turkce-cloudstream"
+include(":FilmEkseni", ":DiziDay")

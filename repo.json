@@ -1,9 +1,9 @@
 {
-  "name": "Turkish Providers Repository",
-  "description": "Türkçe içerik sağlayıcıları için CloudStream-3 eklentileri",
+  "name": "Türkçe Stream Eklentileri",
+  "description": "Türkçe Film ve Dizi İzleme Eklentileri",
   "manifestVersion": 1,
   "pluginLists": [
-    "https://github.com/asistan-emrah/Cloudstream-Turkish-Providers/blob/main/plugins.json"
+    "https://raw.githubusercontent.com/asistan-emrah/turkce-cloudstream/builds/plugins.json"
   ]
 }
 

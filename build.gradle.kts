@@ -20,7 +20,7 @@ allprojects {
 
 tasks.register("make") {
     group = "cloudstream"
-    description = "Makes plugins in this repository"
+    description = "Bu depodaki eklentileri derler"
     
     dependsOn(gradle.includedBuilds.map { it.task(":make") })
 }

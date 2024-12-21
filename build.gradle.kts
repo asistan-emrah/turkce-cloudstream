@@ -18,11 +18,9 @@ allprojects {
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
-
 tasks.register("make") {
-    dependsOn(":FilmEkseni:make")
-    dependsOn(":DiziDay:make")
+    group = "cloudstream"
+    description = "Makes plugins in this repository"
+    
+    dependsOn(gradle.includedBuilds.map { it.task(":make") })
 }

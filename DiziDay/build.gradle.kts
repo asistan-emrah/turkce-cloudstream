@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -11,17 +11,11 @@ android {
         targetSdk = 33
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
-    }
-    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -31,12 +25,14 @@ dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
 }
 
-// CloudStream yapılandırması
-android.applicationVariants.all {
-    outputs.all {
-        val outputFileName = "DiziDay.cs3"
-        file("$rootDir/build/plugins").mkdirs()
-        file("$rootDir/build/plugins/$outputFileName").delete()
-        outputFile.renameTo(file("$rootDir/build/plugins/$outputFileName"))
+tasks.register("make") {
+    doLast {
+        val buildDir = file("$rootDir/build/plugins")
+        buildDir.mkdirs()
+        
+        File(buildDir, "DiziDay.cs3").writeBytes(
+            File(layout.buildDirectory.get().asFile, "outputs/aar/${project.name}-debug.aar")
+                .readBytes()
+        )
     }
 }

@@ -1,4 +1,5 @@
 name: Build
+
 on:
   push:
     branches:
@@ -14,28 +15,28 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup JDK
+      - name: JDK 11 Kurulumu
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
-          
-      - name: Make Gradle Wrapper Executable
-        run: chmod +x ./gradlew
-          
-      - name: Build Plugins
-        run: |
-          ./gradlew make
-          
-      - name: Create Builds Branch and Push
+      
+      - name: Gradle Kurulumu
+        uses: gradle/gradle-build-action@v2
+      
+      - name: gradlew için çalıştırma izni ver
+        run: chmod +x gradlew
+      
+      - name: Eklentileri Derle
+        run: ./gradlew make
+      
+      - name: Derlemeleri Yükle
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git checkout --orphan builds || true
+          git checkout --orphan builds
           git reset
-          mkdir -p build/plugins
-          touch build/plugins/.gitkeep
-          cp -r build/plugins/* . || true
+          cp -r build/plugins/* .
           git add .
-          git commit -m "Build plugins" || true
-          git push -f origin builds || true
+          git commit -m "Eklentiler derlendi" || echo "Commit edilecek değişiklik yok"
+          git push -f origin builds

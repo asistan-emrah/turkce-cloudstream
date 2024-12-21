@@ -21,11 +21,17 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       
+      - name: Gradle Wrapper Dosyalarını Oluştur
+        run: |
+          mkdir -p gradle/wrapper
+          curl -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar
+          curl -o gradle/wrapper/gradle-wrapper.properties https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.properties
+          curl -o gradlew https://github.com/gradle/gradle/raw/master/gradlew
+          curl -o gradlew.bat https://github.com/gradle/gradle/raw/master/gradlew.bat
+          chmod +x gradlew
+      
       - name: Gradle Kurulumu
         uses: gradle/gradle-build-action@v2
-      
-      - name: gradlew için çalıştırma izni ver
-        run: chmod +x gradlew
       
       - name: Eklentileri Derle
         run: ./gradlew make

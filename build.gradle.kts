@@ -22,5 +22,5 @@ tasks.register("make") {
     group = "cloudstream"
     description = "Bu depodaki eklentileri derler"
     
-    dependsOn(gradle.includedBuilds.map { it.task(":make") })
+    dependsOn(subprojects.map { it.tasks.named("make") })
 }

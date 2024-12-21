@@ -1,2 +1,5 @@
 rootProject.name = "turkce-cloudstream"
-include(":FilmEkseni", ":DiziDay")
+
+// Alt projeleri ekle
+include(":FilmEkseni")
+include(":DiziDay")

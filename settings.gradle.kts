@@ -1,6 +1,6 @@
 rootProject.name = "turkce-cloudstream"
 
-// Include all directories with build.gradle.kts
+// build.gradle.kts içeren tüm dizinleri dahil et
 rootDir.walk()
     .maxDepth(1)
     .filter { it.isDirectory && it != rootDir && File(it, "build.gradle.kts").exists() }

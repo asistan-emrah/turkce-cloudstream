@@ -1,10 +1,11 @@
 name: Build
-
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -19,22 +20,22 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-        
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+          
       - name: Build Plugins
         run: |
-          chmod +x gradlew
           ./gradlew make
           
-      - name: Push builds
+      - name: Create Builds Branch and Push
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git checkout --orphan builds
+          git checkout --orphan builds || true
           git reset
-          cp -r build/plugins/* .
+          mkdir -p build/plugins
+          touch build/plugins/.gitkeep
+          cp -r build/plugins/* . || true
           git add .
-          git commit -m "Build plugins"
-          git push -f origin builds
-
+          git commit -m "Build plugins" || true
+          git push -f origin builds || true

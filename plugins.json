@@ -1,29 +1,4 @@
-{
-  "name": "Türkçe Stream Eklentileri",
-  "description": "Türkçe Film ve Dizi İzleme Eklentileri",
-  "plugins": [
-    {
-      "status": 1,
-      "name": "FilmEkseni",
-      "description": "FilmEkseni film izleme sitesi için eklenti",
-      "authors": ["asistan-emrah"],
-      "language": "tr",
-      "tvTypes": ["Movie"],
-      "version": 1,
-      "url": "https://raw.githubusercontent.com/asistan-emrah/turkce-cloudstream/builds/FilmEkseni.cs3"
-    },
-    {
-      "status": 1,
-      "name": "DiziDay",
-      "description": "DiziDay dizi izleme sitesi için eklenti",
-      "authors": ["asistan-emrah"],
-      "language": "tr",
-      "tvTypes": ["TvSeries"],
-      "version": 1,
-      "url": "https://raw.githubusercontent.com/asistan-emrah/turkce-cloudstream/builds/DiziDay.cs3"
-    }
-  ]
-}
+
 
 [
     {
@@ -44,5 +19,6 @@
         "description": "AnimeciX, animeleri ke\u015ffedebilece\u011finiz ve animeler hakk\u0131nda her \u015feyi \u00f6\u011frenebilece\u011finiz bir payla\u015f\u0131m platformudur.",
         "url": "https://raw.githubusercontent.com/asistan-emrah/turkce-cloudstream/builds/FilmEkseni.cs3",
         "name": "AnimeciX"
-    },
+    }
 
+]

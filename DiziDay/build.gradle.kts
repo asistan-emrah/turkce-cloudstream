@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("com.lagradost.cloudstream3.gradle")
 }
 
 android {
@@ -10,6 +9,16 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 33
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {
@@ -24,6 +33,7 @@ android {
 
 dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
+    // Diğer gerekli bağımlılıkları buraya ekleyebilirsiniz
 }
 
 cloudstream {

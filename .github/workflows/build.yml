@@ -3,10 +3,10 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -15,25 +15,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: JDK 11 Kurulumu
+      - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'adopt'
-      
-      - name: Gradle Kurulumu
+          java-version: 11
+          distribution: temurin
+          
+      - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      
-      - name: gradlew'e çalıştırma izni ver
-        run: chmod +x ./gradlew
-      
-      - name: Gradle önbelleğini temizle
-        run: ./gradlew clean
-      
-      - name: Eklentileri Derle
-        run: ./gradlew make --stacktrace
-      
-      - name: Derlemeleri Yükle
+        
+      - name: Build Plugins
+        run: |
+          chmod +x gradlew
+          ./gradlew make
+          
+      - name: Push builds
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
@@ -41,5 +37,5 @@ jobs:
           git reset
           cp -r build/plugins/* .
           git add .
-          git commit -m "Eklentiler derlendi" || echo "Commit edilecek değişiklik yok"
+          git commit -m "Build plugins" || echo "No changes to commit"
           git push -f origin builds

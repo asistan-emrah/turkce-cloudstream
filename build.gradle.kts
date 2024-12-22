@@ -1,49 +1,29 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.lagradost.cloudstream3.gradle") version "2.0"
+    id("com.android.library") apply false
+    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
 }
 
-android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
     }
 }
 
-dependencies {
-    implementation("com.lagradost:cloudstream3:pre-release")
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
 }
 
-cloudstream {
-    language = "tr"
-    description = "Türkçe Film ve Dizi İzleme Eklentisi"
-    authors = listOf("asistan-emrah")
-
-    /**
-     * Status int as the following:
-     * 0: Down
-     * 1: Ok
-     * 2: Slow
-     * 3: Beta only
-     * */
-    status = 1 // will be 1 if unspecified
-
-    // List of video source types. Users can filter for extensions in a given category.
-    tvTypes = listOf(
-        "Movie",
-        "TvSeries",
-        "Anime"
-    )
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
 }

@@ -1,0 +1,9 @@
+{
+  "name": "Türkçe Stream Eklentileri",
+  "description": "Türkçe Film ve Dizi İzleme Eklentileri",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/asistan-emrah/turkce-cloudstream/builds/plugins.json"
+  ]
+}
+

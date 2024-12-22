@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: JDK 11 Kurulumu
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      
+      - name: Gradle Wrapper Dosyalarını Oluştur
+        run: |
+          mkdir -p gradle/wrapper
+          curl -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar
+          curl -o gradle/wrapper/gradle-wrapper.properties https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.properties
+          curl -o gradlew https://github.com/gradle/gradle/raw/master/gradlew
+          curl -o gradlew.bat https://github.com/gradle/gradle/raw/master/gradlew.bat
+          chmod +x gradlew
+      
+      - name: Gradle Kurulumu
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Eklentileri Derle
+        run: ./gradlew make
+      
+      - name: Derlemeleri Yükle
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git checkout --orphan builds
+          git reset
+          cp -r build/plugins/* .
+          git add .
+          git commit -m "Eklentiler derlendi" || echo "Commit edilecek değişiklik yok"
+          git push -f origin builds

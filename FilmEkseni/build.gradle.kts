@@ -1,18 +1,40 @@
-version = 3
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+}
 
-cloudstream {
-    authors     = listOf("asistan-emrah")
-    language    = "tr"
-    description = "Film modun geldiyse yüksek kalitede en yeni filmleri izle, 1080p izleyebileceğiniz reklamsiz film sitesi."
+android {
+    compileSdk = 33
 
-    /**
-     * Status int as the following:
-     * 0: Down
-     * 1: Ok
-     * 2: Slow
-     * 3: Beta only
-    **/
-    status  = 1 // will be 3 if unspecified
-    tvTypes = listOf("Movie")
-    iconUrl = "https://www.google.com/s2/favicons?domain=www.filmmodu17.com&sz=%size%"
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 33
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation("com.lagradost:cloudstream3:pre-release")
+}
+
+afterEvaluate {
+    android.libraryVariants.all {
+        val variantName = name
+        val outputFileName = "FilmEkseni.cs3"
+
+        tasks.register("make${variantName.capitalize()}Jar", Jar::class) {
+            dependsOn("assemble")
+            from("${buildDir}/intermediates/aar_main_jar/${variantName}/classes.jar")
+            archiveFileName.set(outputFileName)
+            destinationDirectory.set(File(rootProject.buildDir, "plugins"))
+        }
+    }
 }

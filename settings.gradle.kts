@@ -1,11 +1,16 @@
 rootProject.name = "turkce-cloudstream"
-include(":FilmEkseni", ":DiziDay")
 
+// Eklentileri include et
+include(":FilmEkseni")
+include(":DiziDay")
+
+// Bu kısmı ekleyin
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven("https://jitpack.io")
     }
 }
 

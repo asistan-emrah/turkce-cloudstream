@@ -1,7 +1,5 @@
 rootProject.name = "turkce-cloudstream"
-
-include(":FilmEkseni")
-include(":DiziDay")
+include(":FilmEkseni", ":DiziDay")
 
 pluginManagement {
     repositories {

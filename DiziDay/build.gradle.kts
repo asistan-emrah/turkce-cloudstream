@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
 }
 
 android {
@@ -25,14 +25,16 @@ dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
 }
 
-tasks.register("make") {
-    doLast {
-        val buildDir = file("$rootDir/build/plugins")
-        buildDir.mkdirs()
-        
-        File(buildDir, "DiziDay.cs3").writeBytes(
-            File(layout.buildDirectory.get().asFile, "outputs/aar/${project.name}-debug.aar")
-                .readBytes()
-        )
+afterEvaluate {
+    android.libraryVariants.all {
+        val variantName = name
+        val outputFileName = "DiziDay.cs3"
+
+        tasks.register("make${variantName.capitalize()}Jar", Jar::class) {
+            dependsOn("assemble")
+            from("${buildDir}/intermediates/aar_main_jar/${variantName}/classes.jar")
+            archiveFileName.set(outputFileName)
+            destinationDirectory.set(File(rootProject.buildDir, "plugins"))
+        }
     }
 }

@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -25,16 +25,9 @@ dependencies {
     implementation("com.github.recloudstream:cloudstream:pre-release")
 }
 
-afterEvaluate {
-    android.libraryVariants.all {
-        val variantName = name
-        val outputFileName = "DiziDay.cs3"
-
-        tasks.register("make${variantName.capitalize()}Jar", Jar::class) {
-            dependsOn("assemble")
-            from("${buildDir}/intermediates/aar_main_jar/${variantName}/classes.jar")
-            archiveFileName.set(outputFileName)
-            destinationDirectory.set(File(rootProject.buildDir, "plugins"))
-        }
-    }
+tasks.register<Jar>("makeDebugJar") {
+    dependsOn("assembleDebug")
+    from("$buildDir/intermediates/aar_main_jar/debug/classes.jar")
+    archiveFileName.set("DiziDay.cs3")
+    destinationDirectory.set(File(rootProject.buildDir, "plugins"))
 }

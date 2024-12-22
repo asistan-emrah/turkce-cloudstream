@@ -1,10 +1,8 @@
 rootProject.name = "turkce-cloudstream"
 
-// Eklentileri include et
 include(":FilmEkseni")
 include(":DiziDay")
 
-// Bu kısmı ekleyin
 pluginManagement {
     repositories {
         google()

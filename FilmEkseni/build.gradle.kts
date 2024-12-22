@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation("com.lagradost:cloudstream3:pre-release")
+    implementation("com.github.recloudstream:cloudstream:pre-release")
 }
 
 afterEvaluate {

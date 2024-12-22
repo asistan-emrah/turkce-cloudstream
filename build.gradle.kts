@@ -1,19 +1,21 @@
-plugins {
-    id("com.android.library") apply false
-    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
-}
 
+
+// Top-level build.gradle.kts
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io")
+        gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
-        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
+        classpath("com.android.tools.build:gradle:7.4.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
     }
+}
+
+plugins {
+    id("com.android.library") version "7.4.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.8.21" apply false
 }
 
 allprojects {

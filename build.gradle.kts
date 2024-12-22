@@ -1,16 +1,24 @@
-// use an integer for version numbers
-version = 1
-
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("com.lagradost.cloudstream3.gradle") version "2.0"
+}
 
 android {
-    compileSdkVersion(33)
+    compileSdk = 33
+
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(33)
+        minSdk = 21
+        targetSdk = 33
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -20,8 +28,6 @@ dependencies {
 
 cloudstream {
     language = "tr"
-    // All of these properties are optional, you can safely remove them
-
     description = "Türkçe Film ve Dizi İzleme Eklentisi"
     authors = listOf("asistan-emrah")
 
@@ -35,7 +41,6 @@ cloudstream {
     status = 1 // will be 1 if unspecified
 
     // List of video source types. Users can filter for extensions in a given category.
-    // You can find a list of avaliable types here: https://recloudstream.github.io/cloudstream/html/app/com.lagradost.cloudstream3/-tv-type/index.html
     tvTypes = listOf(
         "Movie",
         "TvSeries",

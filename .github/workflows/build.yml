@@ -27,8 +27,11 @@ jobs:
       - name: gradlew'e çalıştırma izni ver
         run: chmod +x ./gradlew
       
+      - name: Gradle önbelleğini temizle
+        run: ./gradlew clean
+      
       - name: Eklentileri Derle
-        run: ./gradlew make
+        run: ./gradlew make --stacktrace
       
       - name: Derlemeleri Yükle
         run: |

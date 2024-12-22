@@ -1,24 +1,44 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+// use an integer for version numbers
+version = 1
+
+
+android {
+    compileSdkVersion(33)
+    defaultConfig {
+        minSdkVersion(21)
+        targetSdkVersion(33)
     }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
-plugins {
-    id("com.android.library") apply false
-    id("org.jetbrains.kotlin.android") apply false
+dependencies {
+    implementation("com.lagradost:cloudstream3:pre-release")
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
+cloudstream {
+    language = "tr"
+    // All of these properties are optional, you can safely remove them
 
-tasks.register("make") {
-    dependsOn(":FilmEkseni:makeDebugJar", ":DiziDay:makeDebugJar")
+    description = "Türkçe Film ve Dizi İzleme Eklentisi"
+    authors = listOf("asistan-emrah")
+
+    /**
+     * Status int as the following:
+     * 0: Down
+     * 1: Ok
+     * 2: Slow
+     * 3: Beta only
+     * */
+    status = 1 // will be 1 if unspecified
+
+    // List of video source types. Users can filter for extensions in a given category.
+    // You can find a list of avaliable types here: https://recloudstream.github.io/cloudstream/html/app/com.lagradost.cloudstream3/-tv-type/index.html
+    tvTypes = listOf(
+        "Movie",
+        "TvSeries",
+        "Anime"
+    )
 }

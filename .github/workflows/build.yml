@@ -1,47 +1,62 @@
-name: Build
+
+name: CloudStream Derleyici
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.yml"
+      - "**/*.jpg"
+      - "**/*.png"
+      - "**/*.py"
 
 jobs:
-  build:
+  CloudStreamDerleyici:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: JDK 11 Kurulumu
-        uses: actions/setup-java@v3
+      - name: "'src' Depo Kontrolü"
+        uses: actions/checkout@master
         with:
-          java-version: '11'
-          distribution: 'adopt'
-      
-      - name: Gradle Kurulumu
-        uses: gradle/gradle-build-action@v2
-      
-      - name: gradlew'e çalıştırma izni ver
-        run: chmod +x ./gradlew
-      
-      - name: Gradle önbelleğini temizle
-        run: ./gradlew clean
-      
+          path: "src"
+
+      - name: "'build' Depo Kontrolü"
+        uses: actions/checkout@master
+        with:
+          ref: "builds"
+          path: "builds"
+
+      - name: Eski Derlemeleri Temizle
+        run: rm $GITHUB_WORKSPACE/builds/*.cs3 || true
+
+      - name: JDK 11 Ayarla
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: 11
+
+      - name: Android SDK Ayarla
+        uses: android-actions/setup-android@v2
+
       - name: Eklentileri Derle
-        run: ./gradlew assembleDebug
-      
+        run: |
+          cd $GITHUB_WORKSPACE/src
+          chmod +x gradlew
+          ./gradlew make makePluginsJson
+          cp **/build/*.cs3 $GITHUB_WORKSPACE/builds
+          cp build/plugins.json $GITHUB_WORKSPACE/builds
+
       - name: Derlemeleri Yükle
         run: |
+          cd $GITHUB_WORKSPACE/builds
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git checkout --orphan builds
-          git reset
-          mkdir -p build/plugins
-          find . -name "*.cs3" -exec cp {} build/plugins/ \;
-          cp -r build/plugins/* .
           git add .
-          git commit -m "Eklentiler derlendi" || echo "Commit edilecek değişiklik yok"
-          git push -f origin builds
+          git commit --amend -m "$GITHUB_SHA 'nın Derlenmesi" || exit 0   # eğer commit edilecek bir şey yoksa hata verme
+          git push --force

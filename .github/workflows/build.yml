@@ -1,9 +1,13 @@
 name: Build
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,21 +15,33 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Set up JDK 11
+      - name: JDK 11 Kurulumu
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'
-          
-      - name: Update Gradle Wrapper
-        run: |
-          gradle wrapper --gradle-version 7.5
-          
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-        
-      - name: Clean build
+          distribution: 'adopt'
+      
+      - name: Gradle Kurulumu
+        uses: gradle/gradle-build-action@v2
+      
+      - name: gradlew'e çalıştırma izni ver
+        run: chmod +x ./gradlew
+      
+      - name: Gradle önbelleğini temizle
         run: ./gradlew clean
-        
-      - name: Build with Gradle
-        run: ./gradlew build
+      
+      - name: Eklentileri Derle
+        run: ./gradlew assembleDebug
+      
+      - name: Derlemeleri Yükle
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git checkout --orphan builds
+          git reset
+          mkdir -p build/plugins
+          find . -name "*.cs3" -exec cp {} build/plugins/ \;
+          cp -r build/plugins/* .
+          git add .
+          git commit -m "Eklentiler derlendi" || echo "Commit edilecek değişiklik yok"
+          git push -f origin builds

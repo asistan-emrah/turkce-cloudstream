@@ -19,6 +19,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    namespace = "com.cloudstream3.filmekseni"
 }
 
 dependencies {
@@ -26,14 +28,12 @@ dependencies {
 }
 
 // CloudStream yapılandırması
-android.libraryVariants.all {
+android.applicationVariants.all {
+    val variantName = name
+    val outputFileName = "FilmEkseni.cs3"
+
     outputs.all {
-        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName = "FilmEkseni.cs3"
+        val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
+        output?.outputFileName = outputFileName
     }
 }
-
-extra["cloudstreamLanguage"] = "tr"
-extra["cloudstreamDescription"] = "FilmEkseni için CloudStream eklentisi"
-extra["cloudstreamAuthors"] = listOf("asistan-emrah")
-extra["cloudstreamStatus"] = 1
-extra["cloudstreamTvTypes"] = listOf("Movie", "TvSeries", "Anime")

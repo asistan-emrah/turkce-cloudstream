@@ -1,6 +1,3 @@
-rootProject.name = "turkce-cloudstream"
-include(":FilmEkseni", ":DiziDay")
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -18,3 +15,6 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
     }
 }
+
+rootProject.name = "turkce-cloudstream"
+include(":FilmEkseni", ":DiziDay")

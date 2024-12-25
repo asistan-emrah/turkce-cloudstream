@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("com.lagradost.cloudstream3.gradle") version "2.0"
 }
 
 android {
@@ -27,13 +28,10 @@ dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
 }
 
-// CloudStream yapılandırması
-android.applicationVariants.all {
-    val variantName = name
-    val outputFileName = "Diziday.cs3"
-
-    outputs.all {
-        val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-        output?.outputFileName = outputFileName
-    }
+cloudstream {
+    language = "tr"
+    description = "Diziday için CloudStream eklentisi"
+    authors = listOf("asistan-emrah")
+    status = 1 // 1 OK anlamına gelir
+    tvTypes = listOf("Movie", "TvSeries", "Anime")
 }

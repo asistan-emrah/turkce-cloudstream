@@ -1,39 +1,18 @@
-plugins {
-    id("com.android.library")
-    id("kotlin-android")
-}
+version = 2
 
-android {
-    compileSdk = 33
+cloudstream {
+    authors     = listOf("asistan-emrah")
+    language    = "tr"
+    description = "Güncel ve en iyi yabancı filmleri yüksek görüntü kalitesinde, Türkçe dublaj ve altyazı seçenekleriyle filmleri full izleyin."
 
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-    namespace = "com.cloudstream3.diziday"
-}
-
-dependencies {
-    implementation("com.lagradost:cloudstream3:pre-release")
-}
-
-// CloudStream yapılandırması
-android.applicationVariants.all {
-    val variantName = name
-    val outputFileName = "DiziDay.cs3"
-
-    outputs.all {
-        val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-        output?.outputFileName = outputFileName
-    }
+    /**
+     * Status int as the following:
+     * 0: Down
+     * 1: Ok
+     * 2: Slow
+     * 3: Beta only
+    **/
+    status  = 1 // will be 3 if unspecified
+    tvTypes = listOf("Series")
+    iconUrl = "https://www.google.com/s2/favicons?domain=www.sinema.cx&sz=%size%"
 }

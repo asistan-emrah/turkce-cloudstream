@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("com.lagradost.cloudstream3.gradle")
 }
 
 android {
@@ -11,16 +12,6 @@ android {
         targetSdk = 33
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -29,8 +20,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    namespace = "com.cloudstream3.diziday"
 }
 
 dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
+}
+
+cloudstream {
+    language = "tr"
+    description = "DiziDay için CloudStream eklentisi"
+    authors = listOf("asistan-emrah")
+    status = 1 // 1 OK anlamına gelir
+    tvTypes = listOf("TvSeries", "Anime")
 }

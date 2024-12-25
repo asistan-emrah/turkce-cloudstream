@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew clean
       
       - name: Eklentileri Derle
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleRelease
       
       - name: Derlemeleri Yükle
         run: |

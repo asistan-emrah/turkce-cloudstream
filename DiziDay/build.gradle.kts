@@ -34,11 +34,3 @@ android {
 dependencies {
     implementation("com.lagradost:cloudstream3:pre-release")
 }
-
-cloudstream {
-    language = "tr"
-    description = "DiziDay için CloudStream eklentisi"
-    authors = listOf("asistan-emrah")
-    status = 1 // 1 means OK
-    tvTypes = listOf("Movie", "TvSeries", "Anime")
-}
